@@ -1,0 +1,49 @@
+## Docker Tutorial Example
+## Run this docker file instead of using docker run command
+version: "3.7"
+services:
+  php-practitioner:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    image: supadupac/lamp:latest
+    container_name: container
+    hostname: host
+    domainname: php-practitioner.dev
+    extra_hosts:
+      - "php-practitioner.dev:127.0.0.1"
+    ports:
+      - 4242:80
+    volumes:
+      - ./app:/var/www/html/
+    environment:
+      DB_HOST: mysql
+      DB_DATABASE: docker
+      DB_USERNAME: docker
+      DB_PASSWORD: docker
+  mysql:
+    image: mysql:5.7
+    container_name: db-php-practitioner
+    hostname: db-php-practitioner
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 13306:3306
+    environment:
+      DB_HOST: mysql
+      DB_DATABASE: docker
+      DB_USERNAME: docker
+      DB_PASSWORD: docker
+      MYSQL_ROOT_PASSWORD: docker
+    volumes:
+      - ./lib/db:/var/lib/mysql
+networks:
+  default:
+    external:
+      name: capus-net
+
+## from project root, run
+# docker-compose up
+# docker-compose up --build
+# docker-compose up --build -d
+# docker-compose down
