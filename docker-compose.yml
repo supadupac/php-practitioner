@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: .docker/Dockerfile
     image: supadupac/lamp:latest
-    container_name: container
+    container_name: php-practitioner
     hostname: host
     domainname: php-practitioner.dev
     extra_hosts:
